@@ -1,7 +1,4 @@
-# Install packages if not yet installed
 install.packages(c("ggplot2", "dplyr", "tidyr", "ggpubr", "ggsignif", "reshape2", "corrplot"))
-
-# Load libraries
 library(ggplot2)
 library(dplyr)
 library(tidyr)
@@ -15,7 +12,7 @@ df$temperature <- factor(df$temperature)
 df$salinity <- factor(df$salinity)
 
 # List of response variables (adjust this list)
-response_vars <- c("SOC1", "SOC2", "SOC3", "SOC4")# 15 variables
+response_vars <- c("SOC1", "SOC2",....)# x variables
 
 
 # Convert to long format
