@@ -11,7 +11,7 @@ library(openxlsx)
 library(WriteXLS)
 library(metan)
 
-a.env <- inc_data11[, 5:25]
+a.env <- all_data
 
 cor1 <- cor(a.env, a.env, method = c("spearman"))
 
