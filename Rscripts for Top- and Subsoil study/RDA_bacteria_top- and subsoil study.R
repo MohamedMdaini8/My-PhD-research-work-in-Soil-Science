@@ -9,8 +9,8 @@ library(tidyverse)
 library(dplyr)
 
 
-a.env <- PC[,2:16]
-a.comm <- B_genus2
+a.env <- PC
+a.comm <- Bacteria_genera
 pp <- disttransform(a.comm, method = 'hellinger')
 a.rda <- rda(pp~., data = a.env)
 plot(a.rda)
