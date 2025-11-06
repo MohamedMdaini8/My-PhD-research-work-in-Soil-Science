@@ -3,8 +3,8 @@ library(plotly)
 library(stats)
 library(FactoMineR)
 library(factoextra)
-######################################################################
-data <- inc_data11[, 5:25]
+
+data <- inc_data[, x:y]
 iris.pca <- PCA(data, graph = FALSE)
 ## Making the plot
 plot(iris.pca)
@@ -13,8 +13,8 @@ library(tidyverse)
 # The points in the graph
 points_part <- iris.pca$ind$coord %>%  # Get the coordinates
   as_tibble() %>%  #
-  mutate(Salinity = inc_data6$Salinity,  # Add the salinity and temperature. Be careful that rstudio_results6 is the right source
-         Temperature = inc_data6$Temperature
+  mutate(Salinity = inc_data$Salinity,  # Add the salinity and temperature. Be careful that rstudio_results6 is the right source
+         Temperature = inc_data$Temperature
          ) %>%
   geom_point(aes(x = Dim.1, y = Dim.2, colour = Salinity, shape = Temperature),
              data = ., inherit.aes = FALSE,
