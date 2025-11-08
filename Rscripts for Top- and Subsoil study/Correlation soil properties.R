@@ -1,17 +1,14 @@
-library(standardize)
 library(vegan)
 library(tidyverse)
 library(plotly)
 library(corrplot)
-library(autoplotly)
+library(ggcorrplot)
 library(ggplot2)
-library(ggplot)
 library(corrr)
 library(openxlsx)
 library(WriteXLS)
-library(metan)
 
-a.env <- PC_new
+a.env <- inc_data
 
 cor1 <- cor(a.env, a.env, method = c("pearson"))
 
@@ -33,7 +30,8 @@ ggcorrplot(cor1,
     axis.title.y = element_text(angle = 90, color = 'black')
   )
 
-
+# extract excel file
 
 df1 <- data.frame(cor1)
 writexl::write_xlsx(df1,"M:/PC_correlation_incubation.xlsx")
+
