@@ -11,12 +11,13 @@ library(openxlsx)
 library(WriteXLS)
 library(metan)
 
-a.env <- PC_new
+genera <- decostand(bacteria_genus, "hellinger") # ASVs data need to be Hellinger transformed
+a.env <- data
 
-cor1 <- cor(a.env, a.env, method = c("pearson"))
+cor2 <- cor(a.env, genera, method = c("pearson"))
 
 library(ggcorrplot)
-ggcorrplot(cor1,
+ggcorrplot(cor2,
            hc.order = F,
            method = "square",
            outline.col = "white",
@@ -33,7 +34,7 @@ ggcorrplot(cor1,
     axis.title.y = element_text(angle = 90, color = 'black')
   )
 
+# extract excel file
 
-
-df1 <- data.frame(cor1)
-writexl::write_xlsx(df1,"M:/PC_correlation_incubation.xlsx")
+df1 <- data.frame(cor2)
+writexl::write_xlsx(df1,"M:/PC_correlation.xlsx")
