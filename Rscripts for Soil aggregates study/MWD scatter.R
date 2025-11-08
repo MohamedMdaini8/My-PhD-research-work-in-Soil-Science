@@ -1,7 +1,6 @@
 library(tidyverse)
 
-# Prepare data for one CPC fraction (example: cpc1 = >2 mm)
-df_mwd <- Full_dataset_aggregates_MM %>%
+df_mwd <- Full_dataset %>%
   select(Temperature, Incubation_day, Salinity, MWD) %>%
   mutate(
     Salinity = factor(Salinity, levels = c("S1", "S5", "S10")),
@@ -18,7 +17,7 @@ df_mwd_summary <- df_mwd %>%
     .groups = "drop"
   )
 
-# Plot single CPC fraction
+# plot
 ggplot(df_mwd_summary, aes(x = Incubation_day, y = mean_MWD,
                             color = Salinity,
                             linetype = Temperature,
