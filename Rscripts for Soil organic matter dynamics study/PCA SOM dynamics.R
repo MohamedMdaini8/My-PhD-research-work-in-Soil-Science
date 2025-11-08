@@ -6,11 +6,11 @@ library(factoextra)
 
 data <- inc_data[, x:y]
 iris.pca <- PCA(data, graph = FALSE)
-## Making the plot
+## making the plot
 plot(iris.pca)
 library(tidyverse)
 
-# The points in the graph
+# the points in the graph
 points_part <- iris.pca$ind$coord %>%  # Get the coordinates
   as_tibble() %>%  #
   mutate(Salinity = inc_data$Salinity,  # Add the salinity and temperature. Be careful that rstudio_results6 is the right source
@@ -57,7 +57,7 @@ fviz_pca_var(iris.pca, col.var = "contrib", gradient.cols = c("blue", "red"))
 pca_scores <- as.data.frame(iris.pca$ind$coord)
 permanova <- adonis2(pca_scores ~ ., data = inc_data4[, 5:26], method = "euclidean", permutations = 999)
 
-# Print results
+# print results
 print(permanova)
 
 install.packages("remotes")
