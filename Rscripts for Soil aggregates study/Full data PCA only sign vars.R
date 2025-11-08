@@ -3,46 +3,42 @@ library(FactoMineR)
 library(factoextra)
 library(vegan)
 
-# Run PCA
-iris.pca <- PCA(Full_dataset_aggregates_MM[,5:44], graph = FALSE)
+# run pca
+iris.pca <- PCA(Full_dataset[,x:y], graph = FALSE)
 
-# Identify significant variables with envfit
-response_vars <- Full_dataset_aggregates_MM[, 5:44]
+# identify significant variables with envfit
+response_vars <- Full_dataset[, x:y]
 fit <- envfit(iris.pca$ind$coord, response_vars, permutations = 999)
 sig_vars <- names(which(fit$vectors$pvals < 0.05))
 
-# Prepare point data (ensure factors)
+# prepare point data
 points_data <- iris.pca$ind$coord %>%
   as_tibble() %>%
   mutate(
-    Salinity = factor(Full_dataset_aggregates_MM$Salinity,
+    Salinity = factor(Full_dataset$Salinity,
                       levels = c("S1","S5","S10")),
-    Temperature = factor(Full_dataset_aggregates_MM$Temperature)
+    Temperature = factor(Full_dataset$Temperature)
   )
 
-# Arrows for significant variables
+# add arrows for significant variables
 m <- 6
 arrow_data <- iris.pca$var$coord %>%
   as_tibble(rownames = "par") %>%
   filter(par %in% sig_vars)
 
-# Final plot
+# pca plot
 p <- ggplot() +
-  # Points
   geom_point(data = points_data,
              aes(x = Dim.1, y = Dim.2,
                  colour = Salinity, shape = Temperature),
              size = 3.8, alpha = 0.9) +
-  # Arrows
   geom_segment(data = arrow_data,
                aes(x = 0, xend = Dim.1 * m, y = 0, yend = Dim.2 * m),
                arrow = arrow(length = unit(0.22, "inches"), type = "closed"),
                colour = "grey30") +
-  # Arrow labels (larger text)
   geom_text(data = arrow_data,
             aes(x = Dim.1 * m + 0.3, y = Dim.2 * m + 0.3, label = par),
             size = 4.5, fontface = "bold", colour = "black") +
-  # Axes lines
   geom_hline(yintercept = 0, linetype = "dashed", colour = "grey70") +
   geom_vline(xintercept = 0, linetype = "dashed", colour = "grey70") +
   labs(
@@ -52,9 +48,9 @@ p <- ggplot() +
   ) +
   theme_bw(base_size = 14) +
   scale_shape_manual(values = c(19, 17)) +
-  scale_colour_manual(values = c("S1" = "#D55E00",  # burnt orange
-                                 "S5" = "#0072B2",  # blue
-                                 "S10" = "#009E73")) # green
+  scale_colour_manual(values = c("S1" = "#D55E00",
+                                 "S5" = "#0072B2",
+                                 "S10" = "#009E73"))
 
 p
 
