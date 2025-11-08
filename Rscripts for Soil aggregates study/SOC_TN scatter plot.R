@@ -1,6 +1,7 @@
 library(tidyverse)
 
-# Reshape to long format for CN fractions
+# reshape to long format for CN fractions
+
 df_long_cn <- df_cn %>%
   select(Temperature, Incubation_day, Salinity, CN1, CN2, CN3, CN4) %>%
   pivot_longer(
@@ -20,7 +21,8 @@ df_long_cn <- df_cn %>%
     fraction = factor(fraction, levels = c(">2 mm", "0.25–2 mm", "0.053–0.25 mm", "<0.053 mm"))
   )
 
-# Summarize mean and standard error, then remove duplicates
+# summarize mean and standard error, then remove duplicates
+
 df_cn_summary <- df_long_cn %>%
   group_by(fraction, Incubation_day, Salinity, Temperature) %>%
   summarise(
@@ -30,7 +32,8 @@ df_cn_summary <- df_long_cn %>%
   ) %>%
   distinct(fraction, Incubation_day, Salinity, Temperature, .keep_all = TRUE)  # Remove any duplicates
 
-# Plot with correct grouping and no duplicated lines
+# make the plot with correct grouping and no duplicated lines
+
 ggplot(df_cn_summary, aes(x = Incubation_day, y = mean_CN,
                           color = Salinity,
                           linetype = Temperature,
