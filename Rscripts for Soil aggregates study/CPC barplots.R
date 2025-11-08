@@ -1,8 +1,8 @@
 library(tidyverse)
 
-df1 <- Full_dataset_aggregates_MM
+df1 <- Full_dataset
 
-# Reshape CPC fractions into long format
+# reshape CPC fractions into long format
 df_long <- df1 %>%
   select(Salinity, Temperature, cpc1, cpc2, cpc3, cpc4) %>%
   pivot_longer(
@@ -21,7 +21,7 @@ df_long <- df1 %>%
                       levels = c(">2 mm", "0.25–2 mm", "0.053–0.25 mm", "<0.053 mm"))
   )
 
-# Barplot with errorbars
+# make barplot with errorbars
 ggplot(df_long, aes(x = Salinity, y = CPC, fill = fraction)) +
   stat_summary(fun = mean, geom = "bar", 
                position = position_dodge(width = 0.9)) +
