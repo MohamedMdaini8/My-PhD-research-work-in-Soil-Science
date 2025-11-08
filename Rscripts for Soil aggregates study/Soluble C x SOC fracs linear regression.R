@@ -1,12 +1,11 @@
-# Load required libraries
 library(tidyverse)
 library(ggpubr)
 library(patchwork)
 
-# Assuming your dataset is named df
-df <- Full_dataset_aggregates2  # Replace with your actual data object
+df <- Full_dataset
 
-# Create individual plots
+# create individual plots
+
 p1 <- ggplot(df, aes(x = Csol, y = SOC1)) +
   geom_point(color = "#1b9e77", size = 3, alpha = 0.8) +
   geom_smooth(method = "lm", se = TRUE, color = "#1b9e77", fill = "#1b9e77", alpha = 0.2) +
@@ -35,7 +34,7 @@ p4 <- ggplot(df, aes(x = Csol, y = SOC4)) +
   labs(title = "D", x = "Soluble C (mg/kg)", y = "SOC in <0.053 mm") +
   theme_minimal()
 
-# Combine plots with patchwork
+# combine plots with patchwork
 (p1 | p2) / (p3 | p4) +
   plot_annotation(title = "",
                   theme = theme(plot.title = element_text(size = 16, face = "bold", hjust = 0.5)))
