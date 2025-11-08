@@ -1,12 +1,13 @@
 library(ggplot2)
 library(dplyr)
 
+# extract and mutate CPC from the dataset
 df_cpc <- df1 %>%
   mutate(
     CPC
   )
 
-# Make sure variables are factors with correct levels
+# make sure variables are factors with correct levels
 df_cpc <- df_cpc %>%
   mutate(
     Incubation_day = as.numeric(as.character(Incubation_day)),
