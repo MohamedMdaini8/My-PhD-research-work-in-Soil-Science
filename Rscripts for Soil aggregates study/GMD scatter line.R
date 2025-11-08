@@ -1,8 +1,9 @@
 library(tidyverse)
 
-# If GMD is a single column per sample (not per fraction):
-# Summarize mean and SE for each group
-df_gmd_summary <- Full_dataset_aggregates_MM %>%
+# if GMD is a single column per sample and not per fraction:
+# summarize mean and SE for each group
+
+df_gmd_summary <- Full_dataset %>%
   group_by(Incubation_day, Salinity, Temperature) %>%
   summarise(
     mean_GMD = mean(GMD, na.rm = TRUE),
@@ -15,7 +16,7 @@ df_gmd_summary <- Full_dataset_aggregates_MM %>%
     Incubation_day = as.numeric(as.character(Incubation_day))
   )
 
-# Plot: scatter + smooth lines
+# make scatter with smooth lines plot
 ggplot(df_gmd_summary, aes(x = Incubation_day, y = mean_GMD,
                            color = Salinity,
                            linetype = Temperature,
