@@ -1,8 +1,8 @@
 library(tidyverse)
 
-df1 <- Full_dataset_aggregates_MM
+df1 <- Full_dataset
 
-# Reshape CPC fractions into long format
+# reshape the CPC fractions into long format
 df_long <- df1 %>%
   select(Salinity, Temperature, cpc1, cpc2, cpc3, cpc4) %>%
   pivot_longer(
@@ -21,7 +21,7 @@ df_long <- df1 %>%
                       levels = c(">2", "0.25–2", "0.053–0.25", "<0.053"))
   )
 
-# Stacked barplot (means only) with 6 y-axis ticks
+# make the stacked barplot
 ggplot(df_long, aes(x = Salinity, y = CPC, fill = fraction)) +
   stat_summary(fun = mean, geom = "bar", position = "stack") +
   facet_wrap(~ Temperature, ncol = 2) +
