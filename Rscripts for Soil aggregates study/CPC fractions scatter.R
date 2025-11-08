@@ -1,7 +1,7 @@
 library(tidyverse)
 
-# Reshape to long format for CPC fractions
-df_long_cpc <- Full_dataset_aggregates_MM %>%
+# reshape to long format for CPC fractions
+df_long_cpc <- Full_dataset %>%
   select(Temperature, Incubation_day, Salinity, cpc1, cpc2, cpc3, cpc4) %>%
   pivot_longer(
     cols = starts_with("cpc"),
@@ -21,7 +21,7 @@ df_long_cpc <- Full_dataset_aggregates_MM %>%
                       levels = c(">2 mm", "0.25–2 mm", "0.053–0.25 mm", "<0.053 mm"))
   )
 
-# Summarize mean and standard error
+# summarize mean and standard error
 df_cpc_summary <- df_long_cpc %>%
   group_by(fraction, Incubation_day, Salinity, Temperature) %>%
   summarise(
@@ -31,7 +31,7 @@ df_cpc_summary <- df_long_cpc %>%
   ) %>%
   distinct(fraction, Incubation_day, Salinity, Temperature, .keep_all = TRUE)
 
-# Plot CPC dynamics across fractions
+# make the plot of CPC dynamics across fractions
 ggplot(df_cpc_summary, aes(x = Incubation_day, y = mean_CPC,
                            color = Salinity,
                            linetype = Temperature,
