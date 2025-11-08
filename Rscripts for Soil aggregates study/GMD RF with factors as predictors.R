@@ -1,24 +1,22 @@
 library(randomForest)
 library(tidyverse)
 
-# ---- STEP 1: Load your data ----
-df <- Full_dataset_aggregates_MM[1:26]
-your_data <- df  # replace with your actual dataset name
+your_data <- Full_dataset[, x:y]
 
-# Set the response variable and remove response variables from predictors
+# set the response variable and remove some response variables from predictors
 response <- your_data$GMD
 predictors <- your_data %>% select(-GMD, -CPC)
 
-# ---- STEP 2: Fit Random Forest model ----
+# fit the random forest model
 set.seed(123)
 rf_model <- randomForest(x = predictors, y = response, importance = TRUE, ntree = 500)
 
-# ---- STEP 3: Extract importance ----
+# find and extract importance
 imp_df <- as.data.frame(importance(rf_model, type = 1))
 imp_df$Variable <- rownames(imp_df)
 colnames(imp_df)[1] <- "IncMSE"
 
-# ---- STEP 4: Assign variable groups with distinct colors ----
+# assign variable groups with distinct colors
 imp_df <- imp_df %>%
   mutate(
     Group = case_when(
@@ -42,7 +40,7 @@ imp_df <- imp_df %>%
     )
   )
 
-# ---- STEP 5: Plot with color-coded groups and significance stars ----
+# make the plot with colored groups and significance stars
 ggplot(imp_df, aes(x = reorder(Variable, IncMSE), y = IncMSE, fill = Group)) +
   geom_col() +
   geom_text(aes(label = sig), hjust = -0.2, size = 5, color = "black") +
