@@ -1,7 +1,8 @@
 library(tidyverse)
 
-# Calculate C/N ratio for each fraction
-df_cn <- Aggregates_Dataset_3 %>%
+# calculate C/N ratio for each fraction
+
+df_cn <- Full_dataset %>%
   mutate(
     CN1 = SOC1 / TN1,
     CN2 = SOC2 / TN2,
@@ -9,7 +10,8 @@ df_cn <- Aggregates_Dataset_3 %>%
     CN4 = SOC4 / TN4
   )
 
-# Reshape to long format for plotting
+# reshape to long format for plotting
+
 df_long_cn <- df_cn %>%
   select(Temperature, Incubation_day, Salinity, CN1, CN2, CN3, CN4) %>%
   pivot_longer(cols = starts_with("CN"), names_to = "fraction", values_to = "CN_ratio") %>%
@@ -25,7 +27,8 @@ df_long_cn <- df_cn %>%
     fraction = factor(fraction, levels = c(">2 mm", "0.25–2 mm", "0.053–0.25 mm", "<0.053 mm"))
   )
 
-# Summarize mean and SE for each group
+# summarize mean and SE for each group
+
 df_summary_cn <- df_long_cn %>%
   group_by(fraction, Incubation_day, Salinity, Temperature) %>%
   summarise(
@@ -34,7 +37,7 @@ df_summary_cn <- df_long_cn %>%
     .groups = "drop"
   )
 
-# Plot
+# make the plot
 ggplot(df_summary_cn, aes(x = fraction, y = mean_CN, fill = Salinity)) +
   geom_bar(stat = "identity", position = position_dodge(width = 0.8), width = 0.7, color = "black") +
   geom_errorbar(
@@ -56,4 +59,7 @@ ggplot(df_summary_cn, aes(x = fraction, y = mean_CN, fill = Salinity)) +
   ) +
   scale_fill_manual(values = c("S1" = "#56B4E9", "S5" = "#FF7F0E", "S10" = "#A8E6A3"))
 library(writexl)
+
+# extract to excel file
+
 write_xlsx(df_cn, "Aggregates data5.xlsx")
