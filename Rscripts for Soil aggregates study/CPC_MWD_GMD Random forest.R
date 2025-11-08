@@ -1,10 +1,9 @@
 library(randomForest)
 library(tidyverse)
 
-# ---- STEP 1: Load your data ----
-df <- Full_dataset_aggregates_MM[1:26]
+df <- Full_dataset[, x:y]
 
-# ---- FUNCTION to run RF and return importance data ----
+# make a function to run random forest and return importance data
 rf_importance_df <- function(response, response_name, predictors) {
   set.seed(123)
   rf_model <- randomForest(
@@ -45,7 +44,7 @@ rf_importance_df <- function(response, response_name, predictors) {
   return(imp_df)
 }
 
-# ---- STEP 2: Run RF for MWD, GMD, CPC ----
+# run random forest for MWD, GMD and CPC
 predictors <- df %>% select(-MWD, -GMD, -CPC)
 
 imp_MWD <- rf_importance_df(df$MWD, "MWD", predictors)
@@ -55,7 +54,7 @@ imp_CPC <- rf_importance_df(df$CPC, "CPC", predictors)
 # Combine all
 all_imp <- bind_rows(imp_MWD, imp_GMD, imp_CPC)
 
-# ---- STEP 3: Plot facetted importance plots ----
+# making the plot facetted importance plots
 ggplot(all_imp, aes(x = reorder(Variable, IncMSE), y = IncMSE, fill = Group)) +
   geom_col() +
   geom_text(aes(label = sig), hjust = -0.2, size = 4, color = "black") +
