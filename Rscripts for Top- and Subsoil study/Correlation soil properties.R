@@ -33,5 +33,6 @@ ggcorrplot(cor1,
 # extract excel file
 
 df1 <- data.frame(cor1)
-writexl::write_xlsx(df1,"M:/PC_correlation_incubation.xlsx")
+writexl::write_xlsx(df1,"M:/PC_correlation.xlsx")
+
 
