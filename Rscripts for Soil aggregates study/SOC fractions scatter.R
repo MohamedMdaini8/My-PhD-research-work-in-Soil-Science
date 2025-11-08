@@ -1,7 +1,8 @@
 library(tidyverse)
 
-# Reshape to long format for SOC fractions
-df_long_soc <- Full_dataset_aggregates_MM %>%
+# reshape to long format for SOC fractions
+
+df_long_soc <- Full_dataset %>%
   select(Temperature, Incubation_day, Salinity, SOC1, SOC2, SOC3, SOC4) %>%
   pivot_longer(
     cols = starts_with("SOC"),
@@ -21,7 +22,8 @@ df_long_soc <- Full_dataset_aggregates_MM %>%
                       levels = c(">2 mm", "0.25–2 mm", "0.053–0.25 mm", "<0.053 mm"))
   )
 
-# Summarize mean and standard error
+# summarize mean and standard error
+
 df_soc_summary <- df_long_soc %>%
   group_by(fraction, Incubation_day, Salinity, Temperature) %>%
   summarise(
@@ -31,7 +33,8 @@ df_soc_summary <- df_long_soc %>%
   ) %>%
   distinct(fraction, Incubation_day, Salinity, Temperature, .keep_all = TRUE)
 
-# Plot SOC concentrations across fractions
+# make the plot SOC concentrations across fractions
+
 ggplot(df_soc_summary, aes(x = Incubation_day, y = mean_SOC,
                            color = Salinity,
                            linetype = Temperature,
